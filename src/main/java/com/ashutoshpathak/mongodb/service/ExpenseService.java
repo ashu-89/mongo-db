@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseService {
@@ -34,15 +35,33 @@ public class ExpenseService {
 //    }
 
 
-    public void updateExpense(){}
+    public void updateExpense(Expense expense){
+        Expense savedExpense = expenseRepository.findById(expense.getId())
+                .orElseThrow(() -> new RuntimeException(
+                        String.format("Cannot find expense by id %s", expense.getId())));
+
+        savedExpense.setExpenseName(expense.getExpenseName());
+        savedExpense.setExpenseAmount(expense.getExpenseAmount());
+        savedExpense.setExpenseCategory(expense.getExpenseCategory());
+
+        expenseRepository.save(savedExpense);
+    }
 
     public List<Expense> getAllExpenses(){
         return expenseRepository.findAll();
     }
 
-    public void getExpenseByName(){}
+    public Expense getExpenseByName(String expenseName){
+        return expenseRepository.findByExpenseName(expenseName)
+                .orElseThrow( () -> new RuntimeException(
+                        String.format("Expense with name %s not found." , expenseName)
+                ));
+    }
 
-    public void deleteExpense(){}
+    public void deleteExpense(String id){
+        expenseRepository.deleteById(id);
+
+    }
 
 
 

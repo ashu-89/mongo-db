@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 public class Expense {
     @Id
     private String id;
+
     @Field(name = "name")
     @Indexed(unique = true)
     private String expenseName;
+
     @Field(name = "category")
     private ExpenseCategory expenseCategory;
 

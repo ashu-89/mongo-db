@@ -23,16 +23,27 @@ public class ExpenseController {
 
     }
 
-    public void updateExpense(){}
+    @PutMapping
+    public ResponseEntity updateExpense(@RequestBody Expense expense){
+        expenseService.updateExpense(expense);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping
     public ResponseEntity<List<Expense>> getAllExpenses(){
       return ResponseEntity.ok(expenseService.getAllExpenses());
     }
 
-    public void getExpenseByName(){}
+    @GetMapping("/{name}")
+    public ResponseEntity<Expense> getExpenseByName(@PathVariable String name){
+        return ResponseEntity.ok(expenseService.getExpenseByName(name));
+    }
 
-    public void deleteExpense(){}
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteExpense(@PathVariable String id){
+        expenseService.deleteExpense(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 
